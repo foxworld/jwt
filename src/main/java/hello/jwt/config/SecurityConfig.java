@@ -62,9 +62,9 @@ public class SecurityConfig {
 
 		// 인증없이 허용 URL 설정
 		http.authorizeHttpRequests(authorize -> authorize
-			.requestMatchers("/api/signup").permitAll() // 해당 URL만 접근가능하고
+				.requestMatchers("/api/hello").permitAll() // 해당 URL만 접근가능하고
 			.requestMatchers("/api/authenticate").permitAll() // 토근을 받기위해 허용
-			.requestMatchers("/api/hello").permitAll() // 회원가입을 받기위해 허용
+				.requestMatchers("/api/signup").permitAll() // 회원가입을 받기위해 허용
 			.requestMatchers("/error").permitAll()
 			.anyRequest().authenticated()); // 나머지는 인증절차에 따라 접근가능하도록한다
 		
