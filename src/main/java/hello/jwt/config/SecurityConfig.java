@@ -26,6 +26,7 @@ public class SecurityConfig {
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+//	@RequiredArgsConstructor 애노테이션으로 대체
 //	public SecurityConfig(TokenProvider tokenProvider, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
 //			JwtAccessDeniedHandler jwtAccessDeniedHandler) {
 //		this.tokenProvider = tokenProvider;
