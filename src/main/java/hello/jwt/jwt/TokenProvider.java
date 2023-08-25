@@ -66,6 +66,8 @@ public class TokenProvider implements InitializingBean {
 		// Claims 이란 : JWT 를 이용해 전송되는 암호화된 정보 payload 안에 property 이다
 		// payload 이란 : 전송되는 JSON 오브젝트 전체 
 		
+		log.debug("token={}", token);
+		
 		Claims claims = Jwts
 				.parserBuilder()
 				.setSigningKey(key)
