@@ -28,13 +28,20 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("loadUserByUsername={}", username);
+		
+		User user1 = new User();
+		
+		user1 = userRepository.findOneWithAuthoritiesByUsername(username).get();
+		log.debug("LHK:userDetails={}", createUser(username, user1));
+		
 		return userRepository.findOneWithAuthoritiesByUsername(username)
 				.map(user -> createUser(username, user))
 				.orElseThrow(()-> new UsernameNotFoundException(username+" 을 찾을 수 없습니다."));
 	}
 
+	// token 안에있는 값 만들기
 	private org.springframework.security.core.userdetails.User createUser(String username, User user) {
-		log.info("createUser  User={}", user.toString());
+		log.info("LHK:createUser:User={}", user.toString());
 		if(!user.isActivated()) {
 			throw new RuntimeException(username+" -> 활성화되어 있지 않습니다.");
 		}
