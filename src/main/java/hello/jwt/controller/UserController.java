@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hello.jwt.domain.User;
-import hello.jwt.dto.UserDto;
+import hello.jwt.dto.SignupDto;
 import hello.jwt.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +24,9 @@ public class UserController {
 	private final UserService userService;
 	
 	@PostMapping("/signup")
-	public ResponseEntity<User> signup(@Valid @RequestBody UserDto userDto) {
-		log.info("userDto={}", userDto.toString());
-		return ResponseEntity.ok(userService.signup(userDto));
+	public ResponseEntity<User> signup(@Valid @RequestBody SignupDto signupDto) {
+		log.info("signupDto={}", signupDto.toString());
+		return ResponseEntity.ok(userService.signup(signupDto));
 	}
 	
 	@GetMapping("/user")

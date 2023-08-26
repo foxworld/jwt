@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class SignupDto {
 	@NotNull
 	@Size(min=3, max=50)
 	private String username;
