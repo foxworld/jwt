@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import hello.jwt.dto.LoginDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -51,6 +52,8 @@ public class TokenProvider implements InitializingBean {
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
 		
+		log.info("authentication.getPrincipal()={}", authentication.getPrincipal());
+
 		long now = (new Date()).getTime();
 		Date validity = new Date(now + this.tokenValidityInMilliseconds);
 		
@@ -61,6 +64,29 @@ public class TokenProvider implements InitializingBean {
 				.setExpiration(validity)
 				.compact();
 	}
+	
+	public String createToken(Authentication authentication, LoginDto loginDto) {
+		String authorities = authentication.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(","));
+		
+		//log.info("authentication={}", authentication.getAuthorities().stream().map(GrantedAuthority::getTargetDate));
+
+		long now = (new Date()).getTime();
+		Date validity = new Date(now + this.tokenValidityInMilliseconds);
+		
+		return Jwts.builder()
+				.setSubject(authentication.getName())
+				.claim("targetdate", loginDto.getTargetdate())
+				.claim("datatype", loginDto.getDatatype())
+				.claim("sendrecv", loginDto.getSendrecv())
+				.claim("filetype", loginDto.getFiletype())
+				.claim(AUTHORITIES_KEY, authorities)
+				.signWith(key, SignatureAlgorithm.HS512)
+				.setExpiration(validity)
+				.compact();
+	}
+	
 	
 	public Authentication getAuthentication(String token) {
 		// Claims 이란 : JWT 를 이용해 전송되는 암호화된 정보 payload 안에 property 이다

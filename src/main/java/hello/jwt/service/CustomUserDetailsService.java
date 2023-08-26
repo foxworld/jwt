@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 import hello.jwt.domain.User;
 import hello.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component("userDetailsService")
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService{
@@ -25,12 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("loadUserByUsername={}", username);
 		return userRepository.findOneWithAuthoritiesByUsername(username)
 				.map(user -> createUser(username, user))
-				.orElseThrow(()-> new UsernameNotFoundException(username+"-> 데이터베이스에서 찾을 수 없습니다."));
+				.orElseThrow(()-> new UsernameNotFoundException(username+" 을 찾을 수 없습니다."));
 	}
 
 	private org.springframework.security.core.userdetails.User createUser(String username, User user) {
+		log.info("createUser  User={}", user.toString());
 		if(!user.isActivated()) {
 			throw new RuntimeException(username+" -> 활성화되어 있지 않습니다.");
 		}

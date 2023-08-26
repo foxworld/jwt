@@ -48,11 +48,13 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public Optional<User> getUserWithAuthorities(String username) {
+		log.info("getUserWithAuthorities={}", username);
 		return userRepository.findOneWithAuthoritiesByUsername(username);
 	}
 	
 	@Transactional(readOnly = true)
 	public Optional<User> getMyUserWithAuthorities() {
+		log.info("getUserWithAuthorities:admin");
 		return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
 		
 	}

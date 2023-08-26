@@ -31,5 +31,9 @@ public class LoginDto {
 	@NotNull
 	@Size(min=4, max=4)
 	private String sendrecv;
+
+	@NotNull
+	@Size(min=0, max=10)
+	private String filetype;
 	
 }

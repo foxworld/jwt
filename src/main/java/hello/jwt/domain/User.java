@@ -18,11 +18,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user")
 @Getter
 @Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +35,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long userId;
-	
+
 	@Column(name = "username", length = 50, unique = true)
 	private String username;
 
@@ -49,9 +51,9 @@ public class User {
 	private boolean activated;
 
 	@ManyToMany
-	@JoinTable(name = "user_authority", 
-		joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id") }, 
-		inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+	@JoinTable(name = "user_authority", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "user_id") }, inverseJoinColumns = {
+					@JoinColumn(name = "authority_name", referencedColumnName = "authority_name") })
 	private Set<Authority> authorities;
 
 }
