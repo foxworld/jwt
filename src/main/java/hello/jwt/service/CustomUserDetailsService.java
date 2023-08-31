@@ -41,16 +41,23 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 	// token 안에있는 값 만들기
 	private org.springframework.security.core.userdetails.User createUser(String username, User user) {
-		log.info("LHK:createUser:User={}", user.toString());
+		//log.info("LHK:createUser:User={}", user.toString());
 		if(!user.isActivated()) {
 			throw new RuntimeException(username+" -> 활성화되어 있지 않습니다.");
 		}
+			
 		List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 				.map(Authority -> new SimpleGrantedAuthority(Authority.getAuthorityName()))
 				.collect(Collectors.toList());
-		return new org.springframework.security.core.userdetails.User(user.getUsername(),
-				user.getPassword(),
-				grantedAuthorities);
+
+		log.debug("LHK:createUser:grantedAuthorities={},{}", grantedAuthorities, user.getAuthorities().stream().toArray());
+		log.debug("LHK:createUser:grantedAuthorities={},{}", grantedAuthorities, user.getAuthorities().stream().toArray());
+		
+		org.springframework.security.core.userdetails.User userDetailsUser  
+		= new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+		
+		log.debug("LHK:createUser:userDetails={}", userDetailsUser.toString());
+		return userDetailsUser;
 	}
 
 }
