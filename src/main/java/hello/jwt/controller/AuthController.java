@@ -35,9 +35,13 @@ public class AuthController {
 	public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
 		UsernamePasswordAuthenticationToken authenticationToken =
 				new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-		log.debug("authenticationToken={}", authenticationToken);
+		authenticationToken.setDetails(loginDto);
+		log.debug("authenticationToken={},getName={},getDetails={}", authenticationToken, authenticationToken.getName(),authenticationToken.getDetails());
 		
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		
+		log.debug("authentication={}", authentication);
+		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		String jwt = tokenProvider.createToken(authentication);
